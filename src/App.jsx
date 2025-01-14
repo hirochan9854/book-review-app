@@ -22,8 +22,9 @@ function App() {
         <h1 className="text-center font-semibold text-2xl mb-12">Login</h1>
         <form onSubmit={handleLogin} className="w-96">
           <div className="mb-4 flex justify-between">
-            <label>Email :</label>
+            <label htmlFor="email">Email :</label>
             <input
+              id="email"
               className="focus:outline-none border border-blue-400"
               type="text"
               value={email}
@@ -31,8 +32,9 @@ function App() {
             />
           </div>
           <div className="mb-4 flex justify-between">
-            <label>Password :</label>
+            <label htmlFor="password">Password :</label>
             <input
+              id="password"
               className="focus:outline-none border border-blue-400 min-w-40"
               type="password"
               value={password}
@@ -45,7 +47,7 @@ function App() {
           >
             Login
           </button>
-          {error && <p style={{ color: "red" }}>{error}</p>}
+          {error && <p className="text-red-500 mt-2 text-center">{error}</p>}
         </form>
       </div>
     </div>
