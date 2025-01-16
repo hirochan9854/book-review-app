@@ -25,8 +25,7 @@ export const signUp = async (name, email, password) => {
     throw error;
   }
 };
-
-export const iconUpload = async (Authorization, icon, contentType) => {
+export const iconUpload = async (Authorization, icon) => {
   try {
     const formData = new FormData();
     formData.append("icon", icon);
@@ -36,7 +35,6 @@ export const iconUpload = async (Authorization, icon, contentType) => {
       body: formData,
       headers: {
         Authorization: `Bearer ${Authorization}`,
-        "content-type": contentType,
       },
     });
 
@@ -45,6 +43,32 @@ export const iconUpload = async (Authorization, icon, contentType) => {
       throw new Error(`Server error: ${response.status} - ${errorText}`);
     }
 
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("An error occurred:", error.message);
+    throw error;
+  }
+};
+
+export const login = async (email, password) => {
+  try {
+    const response = await fetch(`${url}/signin`, {
+      cors: "no-cors",
+      method: "POST",
+      body: JSON.stringify({ email, password }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      // サーバーエラーの場合、エラー内容をスロー
+      const errorText = await response.text();
+      throw new Error(`Server error: ${response.status} - ${errorText}`);
+    }
+
+    // JSONレスポンスをパース
     const data = await response.json();
     return data;
   } catch (error) {

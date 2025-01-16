@@ -1,55 +1,79 @@
-import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { login } from "../api";
 
 export const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-    if (!email || !password) {
-      setError("Email and password are required.");
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      setError("Invalid email address.");
-    } else {
-      setError("");
+  const handleLogin = async (data) => {
+    try {
+      const response = await login(data.email, data.password);
+      console.log(response);
+      console.log("User logged in successfully!");
+    } catch (error) {
+      console.error("An error occurred:", error);
     }
   };
 
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center h-screen flex-col">
       <div>
-        <h1 className="text-center font-semibold text-2xl mb-12">Login</h1>
-        <form onSubmit={handleLogin} className="w-96">
-          <div className="mb-4 flex justify-between">
-            <label htmlFor="email">Email :</label>
+        <h2 className="text-center mb-4">ログイン</h2>
+        <form
+          onSubmit={handleSubmit(handleLogin)}
+          className="flex flex-col items-center w-96"
+        >
+          <div className="mb-4">
+            <label htmlFor="email">メールアドレス</label>
             <input
               id="email"
-              className="focus:outline-none border border-blue-400"
+              className="border border-gray-400 w-96 py-1 px-1 mb-1"
               type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="メールアドレス"
+              {...register("email", {
+                required: "メールアドレスは必須項目です",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "有効なメールアドレスを入力してください",
+                },
+              })}
             />
           </div>
-          <div className="mb-4 flex justify-between">
-            <label htmlFor="password">Password :</label>
+          <div className="mb-4">
+            <label htmlFor="password">パスワード</label>
             <input
               id="password"
-              className="focus:outline-none border border-blue-400 min-w-40"
+              className="border border-gray-400 w-96 py-1 px-1 mb-1"
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              placeholder="パスワード"
+              {...register("password", {
+                required: "パスワードは必須項目です",
+                minLength: {
+                  value: 8,
+                  message: "パスワードは8文字以上で入力してください",
+                },
+              })}
             />
           </div>
           <button
-            className="bg-blue-400 px-4 py-2 rounded-lg text-white mx-auto block"
+            className="bg-blue-500 text-white py-2 px-4 rounded w-full hover:bg-blue-600 transition-colors"
             type="submit"
           >
             Login
           </button>
-          {error && <p className="text-red-500 mt-2 text-center">{error}</p>}
         </form>
       </div>
+      <Link
+        to="/signUp"
+        className="mt-4 text-blue-500 hover:underline text-center block"
+      >
+        新規登録はこちら
+      </Link>
     </div>
   );
 };
