@@ -1,8 +1,13 @@
 import { useForm } from "react-hook-form";
 import { signUp, iconUpload } from "../api";
 import Compressor from "compressorjs";
+import { useNavigate } from "react-router-dom";
 
 export const SignUp = () => {
+  const navigate = useNavigate();
+  if (document.cookie.includes("token")) {
+    window.location.href = "/";
+  }
   const handleSignUp = async (data) => {
     try {
       const response = await signUp(data.name, data.email, data.password);
@@ -20,6 +25,8 @@ export const SignUp = () => {
             );
             console.log(iconResponse);
             console.log("Icon uploaded successfully!");
+            document.cookie = "token=" + response.token;
+            navigate("/");
           } catch {
             setError("icon", {
               message:

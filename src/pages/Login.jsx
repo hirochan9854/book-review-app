@@ -1,13 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { login } from "../api";
 
 export const Login = () => {
+  const navigate = useNavigate();
   const handleLogin = async (data) => {
     try {
       const response = await login(data.email, data.password);
       console.log(response);
       console.log("User logged in successfully!");
+      document.cookie = "token=" + response.token;
+      navigate("/");
     } catch (error) {
       console.error("An error occurred:", error);
     }
@@ -34,6 +37,8 @@ export const Login = () => {
               id="email"
               className="border border-gray-400 w-96 py-1 px-1 mb-1"
               type="text"
+              aria-label="email"
+              name="email"
               placeholder="メールアドレス"
               {...register("email", {
                 required: "メールアドレスは必須項目です",
@@ -50,6 +55,7 @@ export const Login = () => {
               id="password"
               className="border border-gray-400 w-96 py-1 px-1 mb-1"
               type="password"
+              aria-label="password"
               placeholder="パスワード"
               {...register("password", {
                 required: "パスワードは必須項目です",
