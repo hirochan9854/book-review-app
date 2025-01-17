@@ -1,9 +1,17 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { login } from "../api";
+import { useEffect } from "react";
 
 export const Login = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (document.cookie.includes("token")) {
+      navigate("/");
+    }
+  }, [navigate]);
+
   const handleLogin = async (data) => {
     try {
       const response = await login(data.email, data.password);
@@ -24,7 +32,10 @@ export const Login = () => {
   });
 
   return (
-    <div className="flex justify-center items-center h-screen flex-col">
+    <div
+      className="flex justify-center items-center flex-col"
+      style={{ height: "calc(100vh - 5rem)" }}
+    >
       <div>
         <h2 className="text-center mb-4">ログイン</h2>
         <form

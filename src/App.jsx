@@ -1,9 +1,13 @@
+import { Header } from "./components/Header";
 import { Router } from "./Router";
 
 function App() {
   return (
     <div className="App">
-      <Router />
+      <Header />
+      <div className="mt-20">
+        <Router />
+      </div>
     </div>
   );
 }

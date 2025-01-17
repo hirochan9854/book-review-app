@@ -2,12 +2,17 @@ import { useForm } from "react-hook-form";
 import { signUp, iconUpload } from "../api";
 import Compressor from "compressorjs";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export const SignUp = () => {
   const navigate = useNavigate();
-  if (document.cookie.includes("token")) {
-    window.location.href = "/";
-  }
+
+  useEffect(() => {
+    if (document.cookie.includes("token")) {
+      navigate("/");
+    }
+  }, [navigate]);
+
   const handleSignUp = async (data) => {
     try {
       const response = await signUp(data.name, data.email, data.password);
@@ -85,7 +90,10 @@ export const SignUp = () => {
   }
 
   return (
-    <div className="flex justify-center items-center h-screen flex-col">
+    <div
+      className="flex justify-center items-center  flex-col"
+      style={{ height: "calc(100vh - 5rem)" }}
+    >
       <h2 className="text-center mb-4">新規登録</h2>
       {errors.api && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4 w-96">

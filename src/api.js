@@ -1,5 +1,17 @@
 const url = "https://railway.bookreview.techtrain.dev";
 
+function getCookieValue(name) {
+  const cookies = document.cookie.split("; ");
+  for (const cookie of cookies) {
+    const [key, value] = cookie.split("=");
+    if (key === name) {
+      return value;
+    }
+  }
+  return null;
+}
+const authorization = getCookieValue("token");
+
 export const signUp = async (name, email, password) => {
   try {
     const response = await fetch(`${url}/users`, {
@@ -69,6 +81,46 @@ export const login = async (email, password) => {
     }
 
     // JSONレスポンスをパース
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("An error occurred:", error.message);
+    throw error;
+  }
+};
+
+export const getBookData = async (offset) => {
+  try {
+    const response = await fetch(`${url}/public/books?offset=${offset}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Server error: ${response.status} - ${errorText}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("An error occurred:", error.message);
+    throw error;
+  }
+};
+
+export const getUserData = async () => {
+  try {
+    const response = await fetch(`${url}/users`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${authorization}`,
+      },
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Server error: ${response.status} - ${errorText}`);
+    }
     const data = await response.json();
     return data;
   } catch (error) {
