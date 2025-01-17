@@ -25,13 +25,16 @@ export const Header = () => {
     <header className="bg-blue-500 text-white p-4 fixed top-0 w-full flex justify-between items-center">
       <h1>書籍レビューアプリ</h1>
       {user.iconUrl ? (
-        <div className="flex items-center flex-nowrap">
+        <div className="flex items-center gap-2 flex-nowrap">
           <img
             src={user.iconUrl}
             alt="ユーザーアイコン"
             className="w-8 h-8 rounded-full"
           />
-          <p className="ml-2">{user.name}</p>
+          <p className="ml-2 text-xl font-medium">{user.name}</p>
+          <a href="/profile" className="text-xs ml-6 underline">
+            ユーザー情報編集
+          </a>
         </div>
       ) : (
         <a className="bg-white text-blue-500 px-4 py-2 rounded" href="/login">

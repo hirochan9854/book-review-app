@@ -1,3 +1,6 @@
+// mail:1223test@gmail.com
+// pass:1223password
+
 const url = "https://railway.bookreview.techtrain.dev";
 
 function getCookieValue(name) {
@@ -117,6 +120,29 @@ export const getUserData = async () => {
         Authorization: `Bearer ${authorization}`,
       },
     });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Server error: ${response.status} - ${errorText}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("An error occurred:", error.message);
+    throw error;
+  }
+};
+
+export const updateUserData = async (name) => {
+  try {
+    const response = await fetch(`${url}/users`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${authorization}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name }),
+    });
+
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(`Server error: ${response.status} - ${errorText}`);
