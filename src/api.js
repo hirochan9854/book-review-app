@@ -97,6 +97,7 @@ export const getBookData = async (offset) => {
         "Content-Type": "application/json",
       },
     });
+
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(`Server error: ${response.status} - ${errorText}`);
@@ -162,6 +163,26 @@ export const newBook = async (title, url, detail, review) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ title, url, detail, review }),
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Server error: ${response.status} - ${errorText}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("An error occurred:", error.message);
+    throw error;
+  }
+};
+
+export const getBookDetail = async (id) => {
+  try {
+    const response = await fetch(`${baseUrl}/books/${id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${authorization}`,
+      },
     });
     if (!response.ok) {
       const errorText = await response.text();

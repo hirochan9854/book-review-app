@@ -4,6 +4,7 @@ import { Home } from "./pages/Home";
 import { SignUp } from "./pages/signup";
 import { Profile } from "./pages/Profile";
 import { New } from "./pages/new";
+import { Detail } from "./pages/Detail";
 
 export const Router = () => {
   return (
@@ -14,6 +15,7 @@ export const Router = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/new" element={<New />} />
+        <Route path="/detail/:id" element={<Detail />} />
         <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
     </BrowserRouter>

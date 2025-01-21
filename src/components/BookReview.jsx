@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
 
-export const BookReview = ({ title, url, review, reviewer }) => {
+import { Link } from "react-router-dom";
+export const BookReview = ({ title, url, review, reviewer, id }) => {
   return (
-    <div className="border-b border-gray-300 py-2 w-full mx-auto">
+    <div className="flex items-center justify-between border-b border-gray-300 py-2 w-2/4 mx-auto">
       <div className="flex items-center">
         <div>
           <h3 className="text-lg font-semibold">
@@ -15,6 +16,12 @@ export const BookReview = ({ title, url, review, reviewer }) => {
           <p>{review}</p>
         </div>
       </div>
+      <Link
+        to={`detail/${id}`}
+        className="bg-blue-400 px-6 py-2 text-white rounded"
+      >
+        詳細
+      </Link>
     </div>
   );
 };
@@ -24,4 +31,5 @@ BookReview.propTypes = {
   url: PropTypes.string.isRequired,
   review: PropTypes.string.isRequired,
   reviewer: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
 };

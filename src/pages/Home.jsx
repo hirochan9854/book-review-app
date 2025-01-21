@@ -16,6 +16,7 @@ export const Home = () => {
   const fetchData = async (offset) => {
     try {
       const data = await getBookData(offset);
+      console.log(data);
       setBooks(data);
     } catch (error) {
       console.error("An error occurred:", error.message);
@@ -44,6 +45,7 @@ export const Home = () => {
             url={book.url}
             review={book.review}
             reviewer={book.reviewer}
+            id={book.id}
           />
         ))}
       </div>
