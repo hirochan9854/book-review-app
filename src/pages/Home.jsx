@@ -2,6 +2,7 @@ import { getBookData } from "../api";
 import { useState, useEffect } from "react";
 import { BookReview } from "../components/BookReview";
 import { useNavigate } from "react-router-dom";
+import { Header } from "../components/Header";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ export const Home = () => {
 
   return (
     <div>
+      <Header />
       <div>
         {books.map((book) => (
           <BookReview

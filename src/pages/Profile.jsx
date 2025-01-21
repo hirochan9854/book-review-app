@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getUserData, updateUserData, iconUpload } from "../api";
 import { useForm } from "react-hook-form";
 import Compressor from "compressorjs";
+import { Header } from "../components/Header";
 
 function getCookieValue(name) {
   const cookies = document.cookie.split("; ");
@@ -111,61 +112,64 @@ export const Profile = () => {
 
   console.log(user.name);
   return (
-    <div
-      className="flex justify-center items-center  flex-col"
-      style={{ height: "calc(100vh - 5rem)" }}
-    >
-      <h2 className="text-center mb-4">ユーザー情報更新</h2>
-      {errors.api && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4 w-96">
-          {errors.api.message}
-        </div>
-      )}
-      <form
-        onSubmit={handleSubmit(handleUpdate)}
-        className="flex flex-col items-center"
+    <div>
+      <Header />
+      <div
+        className="flex justify-center items-center  flex-col"
+        style={{ height: "calc(100vh - 5rem)" }}
       >
-        <input
-          className="border border-gray-400 w-96 py-1 px-1 mb-1"
-          type="text"
-          placeholder={user.name}
-          defaultValue={user.name}
-          {...register("name", {
-            required: "名前は必須項目です",
-            minLength: {
-              value: 2,
-              message: "名前は2文字以上で入力してください",
-            },
-          })}
-        />
-        {errors.name && (
-          <p className="text-red-500 text-sm mb-4 w-96">
-            {errors.name.message}
-          </p>
+        <h2 className="text-center mb-4">ユーザー情報更新</h2>
+        {errors.api && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4 w-96">
+            {errors.api.message}
+          </div>
         )}
+        <form
+          onSubmit={handleSubmit(handleUpdate)}
+          className="flex flex-col items-center"
+        >
+          <input
+            className="border border-gray-400 w-96 py-1 px-1 mb-1"
+            type="text"
+            placeholder={user.name}
+            defaultValue={user.name}
+            {...register("name", {
+              required: "名前は必須項目です",
+              minLength: {
+                value: 2,
+                message: "名前は2文字以上で入力してください",
+              },
+            })}
+          />
+          {errors.name && (
+            <p className="text-red-500 text-sm mb-4 w-96">
+              {errors.name.message}
+            </p>
+          )}
 
-        <input
-          id="imageInput"
-          className="border border-gray-400 w-96 py-1 px-1 mb-1"
-          type="file"
-          accept=".jpeg,.png"
-          {...register("icon")}
-        />
-        {errors.icon && (
-          <p className="text-red-500 text-sm mb-4 w-96">
-            {errors.icon.message}
-          </p>
+          <input
+            id="imageInput"
+            className="border border-gray-400 w-96 py-1 px-1 mb-1"
+            type="file"
+            accept=".jpeg,.png"
+            {...register("icon")}
+          />
+          {errors.icon && (
+            <p className="text-red-500 text-sm mb-4 w-96">
+              {errors.icon.message}
+            </p>
+          )}
+
+          <button className="bg-blue-500 text-white p-3 rounded hover:bg-blue-600 transition-colors">
+            更新
+          </button>
+        </form>
+        {isSuccess && (
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mb-4 mt-5 w-96">
+            更新が完了しました
+          </div>
         )}
-
-        <button className="bg-blue-500 text-white p-3 rounded hover:bg-blue-600 transition-colors">
-          更新
-        </button>
-      </form>
-      {isSuccess && (
-        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mb-4 mt-5 w-96">
-          更新が完了しました
-        </div>
-      )}
+      </div>
     </div>
   );
 };
