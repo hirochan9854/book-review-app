@@ -29,7 +29,14 @@ export const Home = () => {
   return (
     <div>
       <Header />
-      <div>
+
+      <div className="w-11/12 mx-auto">
+        <a
+          href="/new"
+          className="px-3 py-2 bg-blue-400 text-white rounded  mt-4 mb-4"
+        >
+          投稿する
+        </a>
         {books.map((book) => (
           <BookReview
             key={book.id}

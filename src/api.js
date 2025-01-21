@@ -1,7 +1,4 @@
-// mail:1223test@gmail.com
-// pass:1223password
-
-const url = "https://railway.bookreview.techtrain.dev";
+const baseUrl = "https://railway.bookreview.techtrain.dev";
 
 function getCookieValue(name) {
   const cookies = document.cookie.split("; ");
@@ -17,7 +14,7 @@ const authorization = getCookieValue("token");
 
 export const signUp = async (name, email, password) => {
   try {
-    const response = await fetch(`${url}/users`, {
+    const response = await fetch(`${baseUrl}/users`, {
       cors: "no-cors",
       method: "POST",
       body: JSON.stringify({ name, email, password }),
@@ -45,7 +42,7 @@ export const iconUpload = async (Authorization, icon) => {
     const formData = new FormData();
     formData.append("icon", icon);
 
-    const response = await fetch(`${url}/uploads`, {
+    const response = await fetch(`${baseUrl}/uploads`, {
       method: "POST",
       body: formData,
       headers: {
@@ -68,7 +65,7 @@ export const iconUpload = async (Authorization, icon) => {
 
 export const login = async (email, password) => {
   try {
-    const response = await fetch(`${url}/signin`, {
+    const response = await fetch(`${baseUrl}/signin`, {
       cors: "no-cors",
       method: "POST",
       body: JSON.stringify({ email, password }),
@@ -94,7 +91,7 @@ export const login = async (email, password) => {
 
 export const getBookData = async (offset) => {
   try {
-    const response = await fetch(`${url}/public/books?offset=${offset}`, {
+    const response = await fetch(`${baseUrl}/public/books?offset=${offset}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -114,7 +111,7 @@ export const getBookData = async (offset) => {
 
 export const getUserData = async () => {
   try {
-    const response = await fetch(`${url}/users`, {
+    const response = await fetch(`${baseUrl}/users`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${authorization}`,
@@ -134,7 +131,7 @@ export const getUserData = async () => {
 
 export const updateUserData = async (name) => {
   try {
-    const response = await fetch(`${url}/users`, {
+    const response = await fetch(`${baseUrl}/users`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${authorization}`,
@@ -143,6 +140,29 @@ export const updateUserData = async (name) => {
       body: JSON.stringify({ name }),
     });
 
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Server error: ${response.status} - ${errorText}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("An error occurred:", error.message);
+    throw error;
+  }
+};
+
+export const newBook = async (title, url, detail, review) => {
+  try {
+    const response = await fetch(`${baseUrl}/books`, {
+      cors: "no-cors",
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${authorization}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title, url, detail, review }),
+    });
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(`Server error: ${response.status} - ${errorText}`);

@@ -2,9 +2,9 @@ import PropTypes from "prop-types";
 
 export const BookReview = ({ title, url, review, reviewer }) => {
   return (
-    <div className="border-b border-gray-300 py-2 w-11/12 mx-auto">
+    <div className="border-b border-gray-300 py-2 w-full mx-auto">
       <div className="flex items-center">
-        <div className="ml-4">
+        <div>
           <h3 className="text-lg font-semibold">
             {title.slice(0, 20) + (title.length > 20 ? "..." : "")}
           </h3>
