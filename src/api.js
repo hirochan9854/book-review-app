@@ -195,3 +195,43 @@ export const getBookDetail = async (id) => {
     throw error;
   }
 };
+
+export const updateBook = async (id, title, url, detail, review) => {
+  try {
+    const response = await fetch(`${baseUrl}/books/${id}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${authorization}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title, url, detail, review }),
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Server error: ${response.status} - ${errorText}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("An error occurred:", error.message);
+    throw error;
+  }
+};
+
+export const deleteBook = async (id) => {
+  try {
+    const response = await fetch(`${baseUrl}/books/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${authorization}`,
+      },
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Server error: ${response.status} - ${errorText}`);
+    }
+  } catch (error) {
+    console.error("An error occurred:", error.message);
+    throw error;
+  }
+};

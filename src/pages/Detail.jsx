@@ -1,7 +1,7 @@
 import { Header } from "../components/Header";
 import { getBookDetail } from "../api";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 export const Detail = () => {
   const [book, setBook] = useState([]);
@@ -25,7 +25,7 @@ export const Detail = () => {
     <div>
       <Header />
       {!isLoading && (
-        <div>
+        <div className="container mx-auto w-1/2">
           <h2 className="text-center text-2xl font-semibold mt-4">
             {book.title}
           </h2>
@@ -47,6 +47,14 @@ export const Detail = () => {
               <a href="{book.url}">{book.url}</a>
             </div>
           </div>
+          {book.isMine && (
+            <Link
+              to={`/edit/${id}`}
+              className="bg-blue-400 px-6 py-2 text-white rounded mt-4 block mx-auto text-center"
+            >
+              編集
+            </Link>
+          )}
         </div>
       )}
       {isLoading && (
