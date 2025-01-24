@@ -45,7 +45,11 @@ function App() {
           >
             Login
           </button>
-          {error && <p style={{ color: "red" }}>{error}</p>}
+          {error && (
+            <p style={{ color: "red" }} data-testid="error-message">
+              {error}
+            </p>
+          )}
         </form>
       </div>
     </div>
